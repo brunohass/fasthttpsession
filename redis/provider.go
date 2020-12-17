@@ -3,7 +3,7 @@ package redis
 import (
 	"errors"
 	"github.com/gomodule/redigo/redis"
-	"github.com/phachon/fasthttpsession"
+	"github.com/linuxpham/fasthttpsession"
 	"reflect"
 )
 
