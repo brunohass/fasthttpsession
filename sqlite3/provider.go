@@ -2,7 +2,7 @@ package sqlite3
 
 import (
 	"errors"
-	"github.com/phachon/fasthttpsession"
+	"github.com/linuxpham/fasthttpsession"
 	"reflect"
 	"time"
 )
