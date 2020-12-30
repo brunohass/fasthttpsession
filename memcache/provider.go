@@ -2,7 +2,7 @@ package memcache
 
 import (
 	"errors"
-	"github.com/bradfitz/gomemcache/memcache"
+	"github.com/linuxpham/gomemcache/memcache"
 	"github.com/linuxpham/fasthttpsession"
 	"reflect"
 )
