@@ -1,7 +1,7 @@
 package fasthttpsession
 
 import (
-	"github.com/satori/go.uuid"
+	"github.com/linuxpham/go.uuid"
 	"time"
 )
 
