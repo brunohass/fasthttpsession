@@ -3,9 +3,10 @@ package postgres
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/lib/pq"
 	"strconv"
 	"time"
+
+	_ "github.com/lib/pq"
 )
 
 func newSessionDao(dsn string, tableName string) (*sessionDao, error) {

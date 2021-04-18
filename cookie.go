@@ -1,8 +1,9 @@
 package fasthttpsession
 
 import (
-	"github.com/valyala/fasthttp"
 	"time"
+
+	"github.com/valyala/fasthttp"
 )
 
 func NewCookie() *Cookie {
@@ -32,13 +33,13 @@ func (c *Cookie) Set(ctx *fasthttp.RequestCtx, name string, value string, domain
 	cookie.SetHTTPOnly(true)
 	cookie.SetDomain(domain)
 	if expires >= 0 {
-		if expires == 0 {
-			// = 0 unlimited life
-			cookie.SetExpire(fasthttp.CookieExpireUnlimited)
-		} else {
+		// = 0 unlimited life
+		var expiredTime time.Time = fasthttp.CookieExpireUnlimited
+		if expires > 0 {
 			// > 0
-			cookie.SetExpire(time.Now().Add(expires))
+			expiredTime = time.Now().Add(expires)
 		}
+		cookie.SetExpire(expiredTime)
 	}
 	if ctx.IsTLS() && secure {
 		cookie.SetSecure(true)

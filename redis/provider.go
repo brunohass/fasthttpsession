@@ -2,9 +2,10 @@ package redis
 
 import (
 	"errors"
+	"reflect"
+
 	"github.com/gomodule/redigo/redis"
 	"github.com/linuxpham/fasthttpsession"
-	"reflect"
 )
 
 // session redis provider

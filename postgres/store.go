@@ -1,9 +1,10 @@
 package postgres
 
 import (
+	"time"
+
 	"github.com/linuxpham/fasthttpsession"
 	"github.com/valyala/fasthttp"
-	"time"
 )
 
 // session postgres store

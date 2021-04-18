@@ -2,8 +2,9 @@ package redis
 
 import (
 	"fmt"
-	"github.com/gomodule/redigo/redis"
 	"time"
+
+	"github.com/gomodule/redigo/redis"
 )
 
 func newRedisPool(config *Config) *redis.Pool {

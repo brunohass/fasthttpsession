@@ -1,9 +1,10 @@
 package sqlite3
 
 import (
+	"time"
+
 	"github.com/linuxpham/fasthttpsession"
 	"github.com/valyala/fasthttp"
-	"time"
 )
 
 // session sqlite3 store

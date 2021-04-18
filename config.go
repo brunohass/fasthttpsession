@@ -1,14 +1,15 @@
 package fasthttpsession
 
 import (
-	"github.com/linuxpham/go.uuid"
 	"time"
+
+	"github.com/gofrs/uuid"
 )
 
 var (
-	defaultCookieName = "fasthttpsessionid"
+	defaultCookieName = "_fssid_"
 
-	defaultExpires = time.Hour * 2
+	defaultExpires = time.Hour * 5
 
 	defaultGCLifetime = int64(3)
 )

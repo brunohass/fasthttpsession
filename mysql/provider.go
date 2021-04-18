@@ -2,9 +2,10 @@ package mysql
 
 import (
 	"errors"
-	"github.com/linuxpham/fasthttpsession"
 	"reflect"
 	"time"
+
+	"github.com/linuxpham/fasthttpsession"
 )
 
 // session mysql provider

@@ -2,9 +2,10 @@ package memcache
 
 import (
 	"errors"
-	"github.com/linuxpham/gomemcache/memcache"
-	"github.com/linuxpham/fasthttpsession"
 	"reflect"
+
+	"github.com/linuxpham/fasthttpsession"
+	"github.com/linuxpham/gomemcache/memcache"
 )
 
 // session MemCache provider

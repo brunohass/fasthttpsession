@@ -3,9 +3,10 @@ package sqlite3
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/mattn/go-sqlite3"
 	"strconv"
 	"time"
+
+	_ "github.com/mattn/go-sqlite3"
 )
 
 func newSessionDao(dsn string, tableName string) (*sessionDao, error) {

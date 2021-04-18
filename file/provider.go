@@ -2,7 +2,6 @@ package file
 
 import (
 	"errors"
-	"github.com/linuxpham/fasthttpsession"
 	"io/ioutil"
 	"os"
 	"path"
@@ -11,6 +10,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/linuxpham/fasthttpsession"
 )
 
 // session file provider

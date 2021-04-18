@@ -2,9 +2,10 @@ package memory
 
 import (
 	"errors"
-	"github.com/linuxpham/fasthttpsession"
 	"reflect"
 	"time"
+
+	"github.com/linuxpham/fasthttpsession"
 )
 
 // session memory provider

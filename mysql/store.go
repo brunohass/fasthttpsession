@@ -1,9 +1,10 @@
 package mysql
 
 import (
+	"time"
+
 	"github.com/linuxpham/fasthttpsession"
 	"github.com/valyala/fasthttp"
-	"time"
 )
 
 // session mysql store

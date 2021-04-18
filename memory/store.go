@@ -1,10 +1,11 @@
 package memory
 
 import (
-	"github.com/linuxpham/fasthttpsession"
-	"github.com/valyala/fasthttp"
 	"sync"
 	"time"
+
+	"github.com/linuxpham/fasthttpsession"
+	"github.com/valyala/fasthttp"
 )
 
 // session memory store
