@@ -3,7 +3,7 @@ package fasthttpsession
 import (
 	"time"
 
-	"github.com/gofrs/uuid"
+	uuid "github.com/linuxpham/go.uuid"
 )
 
 var (
