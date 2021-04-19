@@ -118,7 +118,7 @@ func (s *Session) GetSessionStoreWithCtx(ctx *fasthttp.RequestCtx) (sessionStore
 	}
 
 	if tmp, ok := s.ccmap.Get(getCtxPointer(ctx)); ok {
-		return tmp.(fasthttpsession.SessionStore), nil
+		return tmp.(SessionStore), nil
 	}
 	return sessionStore, errors.New(fmt.Sprintf("Session store is empty"))
 }
