@@ -53,6 +53,7 @@ func NewSession(cfg *Config) *Session {
 	session := &Session{
 		config: cfg,
 		cookie: NewCookie(),
+		ccmap:  cmap.New(),
 	}
 
 	return session
