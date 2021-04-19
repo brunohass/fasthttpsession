@@ -3,8 +3,11 @@ package fasthttpsession
 import (
 	"errors"
 	"fmt"
-	"github.com/valyala/fasthttp"
+	"reflect"
 	"time"
+
+	cmap "github.com/orcaman/concurrent-map"
+	"github.com/valyala/fasthttp"
 )
 
 var version = "v0.0.1"
@@ -14,6 +17,7 @@ type Session struct {
 	provider Provider
 	config   *Config
 	cookie   *Cookie
+	ccmap    cmap.ConcurrentMap
 }
 
 var providers = make(map[string]Provider)
@@ -54,6 +58,18 @@ func NewSession(cfg *Config) *Session {
 	return session
 }
 
+// ChangeCookieName => Update cookie name
+func (s *Session) ChangeCookieName(cookieName string) {
+	if cookieName != "" {
+		s.config.CookieName = cookieName
+	}
+}
+
+// ChangeNeedStoreInMap => Change store ccmap between : SessionStore <=> ctx
+func (s *Session) ChangeNeedStoreInMap(controlFlg bool) {
+	s.config.NeedStoreInMap = controlFlg
+}
+
 // set session provider and provider config
 func (s *Session) SetProvider(providerName string, providerConfig ProviderConfig) error {
 	provider, ok := providers[providerName]
@@ -91,12 +107,45 @@ func (s *Session) gc() {
 	}
 }
 
+func getCtxPointer(ctx *fasthttp.RequestCtx) string {
+	var ctxPtr uintptr = reflect.ValueOf(ctx).Pointer()
+	return fmt.Sprintf("0x%x", ctxPtr)
+}
+
+func (s *Session) GetSessionStoreWithCtx(ctx *fasthttp.RequestCtx) (sessionStore SessionStore, err error) {
+	if s.config.NeedStoreInMap == false {
+		return sessionStore, errors.New(fmt.Sprintf("Not support this method in constructor"))
+	}
+
+	if tmp, ok := s.ccmap.Get(getCtxPointer(ctx)); ok {
+		return tmp.(fasthttpsession.SessionStore), nil
+	}
+	return sessionStore, errors.New(fmt.Sprintf("Session store is empty"))
+}
+
+func (s *Session) SetSessionStoreWithCtx(ctx *fasthttp.RequestCtx, sessionStore SessionStore) {
+	s.ccmap.Set(getCtxPointer(ctx), sessionStore)
+}
+
+func (s *Session) RemoveSessionStoreWithCtx(ctx *fasthttp.RequestCtx) bool {
+	if s.config.NeedStoreInMap == false {
+		return true
+	}
+
+	var ctxStr = getCtxPointer(ctx)
+	ok := s.ccmap.Has(ctxStr)
+	if ok {
+		s.ccmap.Remove(ctxStr)
+		return true
+	}
+	return false
+}
+
 // session start
 // 1. get sessionId from fasthttp ctx
 // 2. if sessionId is empty, generator sessionId and set response Set-Cookie
 // 3. return session provider store
 func (s *Session) Start(ctx *fasthttp.RequestCtx) (sessionStore SessionStore, err error) {
-
 	if s.provider == nil {
 		return sessionStore, errors.New("session start error, not set provider")
 	}
@@ -109,10 +158,11 @@ func (s *Session) Start(ctx *fasthttp.RequestCtx) (sessionStore SessionStore, er
 			return sessionStore, errors.New("session generator sessionId is empty")
 		}
 	}
+
 	// read provider session store
 	sessionStore, err = s.provider.ReadStore(sessionId)
 	if err != nil {
-		return
+		return sessionStore, errors.New(fmt.Sprintf("Error when read session data : %s", err.Error()))
 	}
 
 	// encode cookie value
@@ -131,7 +181,11 @@ func (s *Session) Start(ctx *fasthttp.RequestCtx) (sessionStore SessionStore, er
 		ctx.Response.Header.Set(s.config.SessionNameInHttpHeader, sessionId)
 	}
 
-	return
+	if s.config.NeedStoreInMap {
+		s.SetSessionStoreWithCtx(ctx, sessionStore)
+	}
+
+	return sessionStore, nil
 }
 
 // get session id
@@ -139,7 +193,6 @@ func (s *Session) Start(ctx *fasthttp.RequestCtx) (sessionStore SessionStore, er
 // 2. get session id from query
 // 3. get session id from http headers
 func (s *Session) GetSessionId(ctx *fasthttp.RequestCtx) string {
-
 	cookieByte := ctx.Request.Header.Cookie(s.config.CookieName)
 	if len(cookieByte) > 0 {
 		return s.config.Decode(string(cookieByte))
@@ -177,15 +230,16 @@ func (s *Session) Regenerate(ctx *fasthttp.RequestCtx) (sessionStore SessionStor
 	// encode cookie value
 	encodeCookieValue := s.config.Encode(sessionId)
 
-	oldSessionId := s.GetSessionId(ctx)
 	// regenerate provider session store
+	oldSessionId := s.GetSessionId(ctx)
 	if oldSessionId != "" {
 		sessionStore, err = s.provider.Regenerate(oldSessionId, sessionId)
 	} else {
 		sessionStore, err = s.provider.ReadStore(sessionId)
 	}
+
 	if err != nil {
-		return
+		return sessionStore, errors.New(fmt.Sprintf("Error when read session data : %s", err.Error()))
 	}
 
 	// reset response cookie
@@ -202,11 +256,18 @@ func (s *Session) Regenerate(ctx *fasthttp.RequestCtx) (sessionStore SessionStor
 		ctx.Response.Header.Set(s.config.SessionNameInHttpHeader, sessionId)
 	}
 
-	return
+	if s.config.NeedStoreInMap {
+		s.SetSessionStoreWithCtx(ctx, sessionStore)
+	}
+
+	return sessionStore, nil
 }
 
 // destroy session in fasthttp ctx
 func (s *Session) Destroy(ctx *fasthttp.RequestCtx) {
+	if s.config.NeedStoreInMap {
+		defer s.RemoveSessionStoreWithCtx(ctx)
+	}
 
 	// delete header if sessionId in http Header
 	if s.config.SessionIdInHttpHeader {

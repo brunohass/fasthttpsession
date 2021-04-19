@@ -27,6 +27,7 @@ func NewDefaultConfig() *Config {
 		SessionNameInUrlQuery:   "",
 		SessionIdInHttpHeader:   false,
 		SessionNameInHttpHeader: "",
+		NeedStoreInMap:          true,
 	}
 
 	// default sessionIdGeneratorFunc
@@ -36,6 +37,8 @@ func NewDefaultConfig() *Config {
 }
 
 type Config struct {
+	// Need store in CCMAP
+	NeedStoreInMap bool
 
 	// cookie name
 	CookieName string
