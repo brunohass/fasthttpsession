@@ -11,7 +11,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/linuxpham/fasthttpsession"
+	"github.com/brunohass/fasthttpsession"
 )
 
 // session file provider
