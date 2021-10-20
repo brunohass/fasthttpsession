@@ -175,7 +175,9 @@ func (s *Session) Start(ctx *fasthttp.RequestCtx) (sessionStore SessionStore, er
 		encodeCookieValue,
 		s.config.Domain,
 		s.config.Expires,
-		s.config.Secure)
+		s.config.Secure,
+		s.config.SameSite,
+		s.config.HTTPOnly)
 
 	if s.config.SessionIdInHttpHeader {
 		ctx.Request.Header.Set(s.config.SessionNameInHttpHeader, sessionId)
@@ -249,7 +251,9 @@ func (s *Session) Regenerate(ctx *fasthttp.RequestCtx) (sessionStore SessionStor
 		encodeCookieValue,
 		s.config.Domain,
 		s.config.Expires,
-		s.config.Secure)
+		s.config.Secure,
+		s.config.SameSite,
+		s.config.HTTPOnly)
 
 	// reset http header
 	if s.config.SessionIdInHttpHeader {

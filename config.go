@@ -4,6 +4,7 @@ import (
 	"time"
 
 	uuid "github.com/linuxpham/go.uuid"
+	"github.com/valyala/fasthttp"
 )
 
 var (
@@ -23,6 +24,8 @@ func NewDefaultConfig() *Config {
 		GCLifetime:              defaultGCLifetime,
 		SessionLifetime:         60,
 		Secure:                  true,
+		SameSite:                fasthttp.CookieSameSiteLaxMode,
+		HTTPOnly:                true,
 		SessionIdInURLQuery:     false,
 		SessionNameInUrlQuery:   "",
 		SessionIdInHttpHeader:   false,
@@ -45,6 +48,12 @@ type Config struct {
 
 	// cookie domain
 	Domain string
+
+	// cookie sameSite attribute
+	SameSite fasthttp.CookieSameSite
+
+	// cookie httponly attribute
+	HTTPOnly bool
 
 	// If you want to delete the cookie when the browser closes, set it to -1.
 	//
