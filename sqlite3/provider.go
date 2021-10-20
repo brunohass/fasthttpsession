@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/linuxpham/fasthttpsession"
+	"github.com/brunohass/fasthttpsession"
 )
 
 // session sqlite3 provider

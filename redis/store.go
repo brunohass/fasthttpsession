@@ -1,7 +1,7 @@
 package redis
 
 import (
-	"github.com/linuxpham/fasthttpsession"
+	"github.com/brunohass/fasthttpsession"
 	"github.com/valyala/fasthttp"
 )
 

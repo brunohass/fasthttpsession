@@ -3,7 +3,7 @@ package postgres
 import (
 	"time"
 
-	"github.com/linuxpham/fasthttpsession"
+	"github.com/brunohass/fasthttpsession"
 	"github.com/valyala/fasthttp"
 )
 

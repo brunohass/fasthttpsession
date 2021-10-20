@@ -4,8 +4,8 @@ import (
 	"errors"
 	"reflect"
 
+	"github.com/brunohass/fasthttpsession"
 	"github.com/gomodule/redigo/redis"
-	"github.com/linuxpham/fasthttpsession"
 )
 
 // session redis provider

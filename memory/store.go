@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/linuxpham/fasthttpsession"
+	"github.com/brunohass/fasthttpsession"
 	"github.com/valyala/fasthttp"
 )
 

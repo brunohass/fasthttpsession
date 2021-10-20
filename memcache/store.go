@@ -1,7 +1,7 @@
 package memcache
 
 import (
-	"github.com/linuxpham/fasthttpsession"
+	"github.com/brunohass/fasthttpsession"
 	"github.com/linuxpham/gomemcache/memcache"
 	"github.com/valyala/fasthttp"
 )
