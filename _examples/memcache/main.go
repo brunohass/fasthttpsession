@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/linuxpham/fasthttpsession"
-	"github.com/linuxpham/fasthttpsession/memcache"
+	"github.com/brunohass/fasthttpsession"
+	"github.com/brunohass/fasthttpsession/memcache"
 	"github.com/valyala/fasthttp"
 )
 

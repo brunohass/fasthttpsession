@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/linuxpham/fasthttpsession"
-	"github.com/linuxpham/fasthttpsession/sqlite3"
+	"github.com/brunohass/fasthttpsession"
+	"github.com/brunohass/fasthttpsession/sqlite3"
 	"github.com/valyala/fasthttp"
 )
 

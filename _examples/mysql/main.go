@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/linuxpham/fasthttpsession"
-	"github.com/linuxpham/fasthttpsession/mysql"
+	"github.com/brunohass/fasthttpsession"
+	"github.com/brunohass/fasthttpsession/mysql"
 	"github.com/valyala/fasthttp"
 )
 
