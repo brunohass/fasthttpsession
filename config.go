@@ -3,7 +3,7 @@ package fasthttpsession
 import (
 	"time"
 
-	uuid "github.com/linuxpham/go.uuid"
+	"github.com/segmentio/ksuid"
 	"github.com/valyala/fasthttp"
 )
 
@@ -103,10 +103,9 @@ func (c *Config) SessionIdGenerator() string {
 	return sessionIdGenerator()
 }
 
-// default sessionId generator => uuid
+// default sessionId generator => ksuid
 func (c *Config) defaultSessionIdGenerator() string {
-	id, _ := uuid.NewV4()
-	return id.String()
+	return ksuid.New().String()
 }
 
 // encode cookie value
